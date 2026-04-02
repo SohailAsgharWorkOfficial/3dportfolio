@@ -27,7 +27,16 @@ const setCharacter = (
           blobUrl,
           async (gltf) => {
             character = gltf.scene;
-            await renderer.compileAsync(character, camera, scene);
+            // Prevent app crash when WebGL shader precompile intermittently fails in production.
+            try {
+              if (typeof renderer.compileAsync === "function") {
+                await renderer.compileAsync(character, camera, scene);
+              } else {
+                renderer.compile(character, camera, scene);
+              }
+            } catch (compileError) {
+              console.warn("Character precompile skipped:", compileError);
+            }
             character.traverse((child: any) => {
               if (child.isMesh) {
                 const mesh = child as THREE.Mesh;
@@ -58,6 +67,7 @@ const setCharacter = (
 
             // Monitor scale is handled by GsapScroll.ts animations
 
+            URL.revokeObjectURL(blobUrl);
             dracoLoader.dispose();
           },
           undefined,
