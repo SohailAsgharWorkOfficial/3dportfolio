@@ -5,11 +5,11 @@ import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 const projects = [
   {
-  title: "Potentials Dev+",
-  category: "Web Development & Digital Experience Agency",
-  tools: "Custom web development, UI/UX design, SEO optimization",
-  image: "/images/potentialsdev.png",
-  link: "https://potentialsdev.com",
+    title: "Potentials Dev+",
+    category: "Web Development & Digital Experience Agency",
+    tools: "Custom web development, UI/UX design, SEO optimization",
+    image: "/images/potentialsdev.png",
+    link: "https://potentialsdev.com",
   },
   {
     title: "Rungdo",
@@ -40,11 +40,18 @@ const projects = [
     link: "https://www.unitedummah.online",
   },
   {
-  title: "4K Stream UK",
-  category: "IPTV & Streaming Services Platform",
-  tools: "Subscription system, Payment integration, Optimized UI",
-  image: "/images/4kstreamuk.png",
-  link: "https://www.4kstreamuk.com",
+    title: "Replica Copy Industries",
+    category: "Printing & Document Services Platform",
+    tools: "WordPress, Elementor, Custom CSS",
+    image: "/images/replicacopyindustries.png",
+    link: "https://www.replicacopyindustries.com",
+  },
+  {
+    title: "4K Stream UK",
+    category: "IPTV & Streaming Services Platform",
+    tools: "Subscription system, Payment integration, Optimized UI",
+    image: "/images/4kstreamuk.png",
+    link: "https://www.4kstreamuk.com",
   },
   {
     title: "Orrdr.com",
