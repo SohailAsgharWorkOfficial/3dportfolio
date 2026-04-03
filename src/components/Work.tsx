@@ -4,7 +4,14 @@ import WorkImage from "./WorkImage";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 const projects = [
-    {
+  {
+  title: "Potentials Dev+",
+  category: "Web Development & Digital Experience Agency",
+  tools: "Custom web development, UI/UX design, SEO optimization",
+  image: "/images/potentialsdev.png",
+  link: "https://potentialsdev.com",
+  },
+  {
     title: "Rungdo",
     category: "Online Paint E-commerce Platform",
     tools: "Product catalog & e-store functionality, Paint calculator feature, optimized UI",
@@ -25,7 +32,20 @@ const projects = [
     image: "/images/literarypublisher.png",
     link: "https://www.literarypublisher.com",
   },
-
+  {
+    title: "United Ummah",
+    category: "Islamic Community & Digital Platform",
+    tools: " React Framer Motion, Tailwind CSS, Responsive Design",
+    image: "/images/unitedummah.png",
+    link: "https://www.unitedummah.online",
+  },
+  {
+  title: "4K Stream UK",
+  category: "IPTV & Streaming Services Platform",
+  tools: "Subscription system, Payment integration, Optimized UI",
+  image: "/images/4kstreamuk.png",
+  link: "https://www.4kstreamuk.com",
+  },
   {
     title: "Orrdr.com",
     category: "Ecommerce Platform and Mobile App",
