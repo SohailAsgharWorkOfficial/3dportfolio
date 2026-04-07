@@ -329,3 +329,49 @@
     max-height: 250px;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .work-section {
+    padding: 40px 0;
+  }
+
+  .work-section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .carousel-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .carousel-number h3 {
+    font-size: 28px;
+  }
+
+  .carousel-details h4 {
+    font-size: 18px;
+  }
+
+  .carousel-category {
+    font-size: 14px;
+  }
+
+  .carousel-tools p {
+    font-size: 13px;
+  }
+
+  .carousel-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+  .work-image img {
+    max-height: 200px;
+  }
+  
+  .carousel-slide {
+    padding: 20px 0px;
+  }
+}

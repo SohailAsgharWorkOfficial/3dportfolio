@@ -14,21 +14,21 @@ const projects = [
   {
     title: "Rungdo",
     category: "Online Paint E-commerce Platform",
-    tools: "Product catalog & e-store functionality, Paint calculator feature, optimized UI",
+    tools: "E-store functionality, Paint calculator feature, optimized UI",
     image: "/images/rungdo.png",
     link: "https://www.rungdo.com",
   },
   {
     title: "Glamur Paints",
     category: "Paint Products & Services Platform",
-    tools: "E-commerce, Product Catalog, Responsive UI, API Integration",
+    tools: "E-commerce, Product Catalog, Responsive UI",
     image: "/images/glamurpaints.png",
     link: "https://glamurpaints.com",
   },
   {
     title: "Literary Publisher",
     category: "Online Book Publishing Platform",
-    tools: "  Responsive UI (React.js), Lead generation forms, Performance optimization",
+    tools: "React.js, Lead generation, Performance optimization",
     image: "/images/literarypublisher.png",
     link: "https://www.literarypublisher.com",
   },
@@ -88,6 +88,34 @@ const Work = () => {
     goToSlide(newIndex);
   }, [currentIndex, goToSlide]);
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      goToNext();
+    }
+    if (isRightSwipe) {
+      goToPrev();
+    }
+  };
+
   return (
     <div className="work-section" id="work">
       <div className="work-container section-container">
@@ -115,7 +143,12 @@ const Work = () => {
           </button>
 
           {/* Slides */}
-          <div className="carousel-track-container">
+          <div
+            className="carousel-track-container"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <div
               className="carousel-track"
               style={{
