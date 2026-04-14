@@ -60,13 +60,6 @@ const projects = [
     image: "/images/4kstreamuk.png",
     link: "https://www.4kstreamuk.com",
   },
-  {
-    title: "Orrdr.com",
-    category: "Ecommerce Platform and Mobile App",
-    tools: "Ecommerce, Mobile Experience, Order Management",
-    image: "/images/orrdr.png",
-    link: "https://orrdr.com",
-  },
 ];
 
 const Work = () => {
