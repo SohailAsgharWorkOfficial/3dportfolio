@@ -21,7 +21,8 @@ const Career = () => {
               <h3>NOW</h3>
             </div>
             <p>
-             Implement production-ready features across frontend and backend, ensuring reliability, maintainability, and modular architecture.
+              Implement production-ready features across frontend and backend,
+              ensuring reliability, maintainability, and modular architecture.
             </p>
           </div>
           <div className="career-info-box">
@@ -30,10 +31,11 @@ const Career = () => {
                 <h4>Web App Developer</h4>
                 <h5>Ethisol</h5>
               </div>
-              <h3>24–25</h3>
+              <h3>24-25</h3>
             </div>
             <p>
-              Developed and deployed modern, responsive web applications for diverse clients across multiple industries successfully
+              Developed and deployed modern, responsive web applications for
+              diverse clients across multiple industries successfully.
             </p>
           </div>
           <div className="career-info-box">
@@ -42,10 +44,11 @@ const Career = () => {
                 <h4>Frontend Developer</h4>
                 <h5>Ethisol</h5>
               </div>
-              <h3>22–24</h3>
+              <h3>22-24</h3>
             </div>
             <p>
-              Converted Figma and Adobe XD designs into high-quality, maintainable code with pixel-perfect accuracy consistently.
+              Converted Figma and Adobe XD designs into high-quality,
+              maintainable code with pixel-perfect accuracy consistently.
             </p>
           </div>
           <div className="career-info-box">
@@ -57,7 +60,11 @@ const Career = () => {
               <h3></h3>
             </div>
             <p>
-              Contributed to the development of enterprise-level applications by assisting in design, feature implementation, and system optimization. Collaborated with teams to deliver scalable, high-performance business solutions while following industry best practices.
+              Contributed to the development of enterprise-level applications
+              by assisting in design, feature implementation, and system
+              optimization. Collaborated with teams to deliver scalable,
+              high-performance business solutions while following industry best
+              practices.
             </p>
           </div>
         </div>

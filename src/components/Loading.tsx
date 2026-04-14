@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./styles/Loading.css";
 import { useLoading } from "../context/LoadingProvider";
 
@@ -9,29 +9,78 @@ const Loading = ({ percent }: { percent: number }) => {
   const [loaded, setLoaded] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const hasFinishedRef = useRef(false);
+  const initialFXRef = useRef<{ initialFX?: () => void } | null>(null);
 
-  if (percent >= 100) {
-    setTimeout(() => {
-      setLoaded(true);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 1000);
-    }, 600);
-  }
+  const finishLoading = useCallback(() => {
+    if (hasFinishedRef.current) return;
+    hasFinishedRef.current = true;
+
+    try {
+      initialFXRef.current?.initialFX?.();
+    } catch (error) {
+      console.error("Failed to run initialFX:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [setIsLoading]);
 
   useEffect(() => {
-    import("./utils/initialFX").then((module) => {
-      if (isLoaded) {
-        setClicked(true);
-        setTimeout(() => {
-          if (module.initialFX) {
-            module.initialFX();
-          }
-          setIsLoading(false);
+    if (percent < 100 || loaded) return;
+
+    const completeTimeout = window.setTimeout(() => {
+      setLoaded(true);
+    }, 600);
+
+    return () => {
+      window.clearTimeout(completeTimeout);
+    };
+  }, [loaded, percent]);
+
+  useEffect(() => {
+    if (!loaded || isLoaded) return;
+
+    const revealTimeout = window.setTimeout(() => {
+      setIsLoaded(true);
+    }, 1000);
+
+    return () => {
+      window.clearTimeout(revealTimeout);
+    };
+  }, [isLoaded, loaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    let startTimeout = 0;
+    let fallbackTimeout = 0;
+    let unmounted = false;
+    setClicked(true);
+
+    fallbackTimeout = window.setTimeout(() => {
+      if (!unmounted) finishLoading();
+    }, 4000);
+
+    import("./utils/initialFX")
+      .then((module) => {
+        if (unmounted) return;
+        initialFXRef.current = module;
+
+        startTimeout = window.setTimeout(() => {
+          finishLoading();
         }, 900);
-      }
-    });
-  }, [isLoaded]);
+      })
+      .catch((error) => {
+        console.error("Failed to load initialFX module:", error);
+        if (!unmounted) finishLoading();
+      });
+
+    return () => {
+      unmounted = true;
+      window.clearTimeout(startTimeout);
+      window.clearTimeout(fallbackTimeout);
+    };
+  }, [finishLoading, isLoaded]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
     const { currentTarget: target } = e;
@@ -71,7 +120,22 @@ const Loading = ({ percent }: { percent: number }) => {
           onMouseMove={(e) => handleMouseMove(e)}
         >
           <div className="loading-hover"></div>
-          <div className={`loading-button ${loaded && "loading-complete"}`}>
+          <div
+            className={`loading-button ${loaded && "loading-complete"}`}
+            onClick={loaded ? finishLoading : undefined}
+            role={loaded ? "button" : undefined}
+            tabIndex={loaded ? 0 : -1}
+            onKeyDown={
+              loaded
+                ? (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      finishLoading();
+                    }
+                  }
+                : undefined
+            }
+          >
             <div className="loading-container">
               <div className="loading-content">
                 <div className="loading-content-in">

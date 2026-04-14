@@ -1,16 +1,20 @@
 import * as THREE from "three";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function setCharTimeline(
   character: THREE.Object3D<THREE.Object3DEventMap> | null,
   camera: THREE.PerspectiveCamera
 ) {
-  let intensity: number = 0;
-  setInterval(() => {
-    intensity = Math.random();
-  }, 200);
+  ScrollTrigger.getById("char-landing")?.kill();
+  ScrollTrigger.getById("char-about")?.kill();
+  ScrollTrigger.getById("char-what")?.kill();
+
   const tl1 = gsap.timeline({
     scrollTrigger: {
+      id: "char-landing",
       trigger: ".landing-section",
       start: "top top",
       end: "bottom top",
@@ -20,6 +24,7 @@ export function setCharTimeline(
   });
   const tl2 = gsap.timeline({
     scrollTrigger: {
+      id: "char-about",
       trigger: ".about-section",
       start: "center 55%",
       end: "bottom top",
@@ -29,6 +34,7 @@ export function setCharTimeline(
   });
   const tl3 = gsap.timeline({
     scrollTrigger: {
+      id: "char-what",
       trigger: ".whatIDO",
       start: "top top",
       end: "bottom top",
@@ -53,9 +59,9 @@ export function setCharTimeline(
       object.material.opacity = 0;
       object.material.emissive.set("#B0F5EA");
       gsap.timeline({ repeat: -1, repeatRefresh: true }).to(object.material, {
-        emissiveIntensity: () => intensity * 8,
-        duration: () => Math.random() * 0.6,
-        delay: () => Math.random() * 0.1,
+        emissiveIntensity: () => Math.random() * 8,
+        duration: () => Math.random() * 0.6 + 0.1,
+        delay: () => Math.random() * 0.15,
       });
       screenLight = object;
     }
@@ -148,8 +154,10 @@ export function setCharTimeline(
 }
 
 export function setAllTimeline() {
+  ScrollTrigger.getById("career-main")?.kill();
   const careerTimeline = gsap.timeline({
     scrollTrigger: {
+      id: "career-main",
       trigger: ".career-section",
       start: "top 30%",
       end: "100% center",

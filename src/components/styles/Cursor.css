@@ -1,5 +1,5 @@
 .cursor-main {
-  --size: 0px;
+  --size: 46px;
   position: fixed;
   top: calc(var(--size) / -2);
   left: calc(var(--size) / -2);
@@ -7,12 +7,16 @@
   height: var(--size);
   border-radius: 50px;
   pointer-events: none;
-  z-index: 99;
+  z-index: 2147483647;
   background-color: #e6c3ff;
   box-shadow: 0px 0px 30px 0px rgb(175, 131, 255);
   mix-blend-mode: difference;
-  transition: top 0.3s ease-out, left 0.3s ease-out, width 0.3s ease-out,
-    height 0.3s ease-out;
+  will-change: transform;
+  transition: width 0.3s ease-out, height 0.3s ease-out;
+  opacity: 0;
+}
+.cursor-active {
+  opacity: 1;
 }
 .cursor-icons {
   top: 10px;
@@ -23,11 +27,15 @@
 .cursor-disable {
   --size: 0px;
 }
-@media only screen and (min-width: 600px) {
-  .cursor-main {
-    --size: 50px;
+
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-enabled,
+  .custom-cursor-enabled * {
+    cursor: none !important;
   }
-  .cursor-disable {
-    --size: 0px;
+
+  .custom-cursor-enabled.cursor-native-visible,
+  .custom-cursor-enabled.cursor-native-visible * {
+    cursor: auto !important;
   }
 }

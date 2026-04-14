@@ -1,4 +1,11 @@
-import { lazy, PropsWithChildren, Suspense, useEffect, useState } from "react";
+import {
+  lazy,
+  PropsWithChildren,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import About from "./About";
 import Career from "./Career";
 import Contact from "./Contact";
@@ -16,18 +23,64 @@ const MainContainer = ({ children }: PropsWithChildren) => {
   const [isDesktopView, setIsDesktopView] = useState<boolean>(
     window.innerWidth > 1024
   );
+  const [shouldRenderTechStack, setShouldRenderTechStack] = useState(false);
+  const techStackSentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    let rafId: number | null = null;
+
     const resizeHandler = () => {
-      setSplitText();
-      setIsDesktopView(window.innerWidth > 1024);
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+      rafId = window.requestAnimationFrame(() => {
+        setSplitText();
+        const nextIsDesktopView = window.innerWidth > 1024;
+        setIsDesktopView((prev) =>
+          prev === nextIsDesktopView ? prev : nextIsDesktopView
+        );
+        if (!nextIsDesktopView) {
+          setShouldRenderTechStack(false);
+        }
+      });
     };
+
     resizeHandler();
-    window.addEventListener("resize", resizeHandler);
+    window.addEventListener("resize", resizeHandler, { passive: true });
+
     return () => {
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
       window.removeEventListener("resize", resizeHandler);
     };
-  }, [isDesktopView]);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktopView || shouldRenderTechStack) return;
+
+    const sentinel = techStackSentinelRef.current;
+    if (!sentinel || !("IntersectionObserver" in window)) {
+      setShouldRenderTechStack(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRenderTechStack(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "600px 0px",
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [isDesktopView, shouldRenderTechStack]);
 
   return (
     <div className="container-main">
@@ -44,6 +97,9 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Career />
             <Work />
             {isDesktopView && (
+              <div ref={techStackSentinelRef} className="techstack-sentinel" />
+            )}
+            {isDesktopView && shouldRenderTechStack && (
               <Suspense fallback={<div>Loading....</div>}>
                 <TechStack />
               </Suspense>

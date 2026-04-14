@@ -30,6 +30,31 @@
   letter-spacing: 1px;
 }
 
+@media only screen and (max-width: 767px) {
+  .about-me {
+    padding: 32px 0px 0px;
+    max-width: calc(100% - 20px);
+  }
+  .about-me h3 {
+    font-size: 20px;
+    letter-spacing: 4px;
+    margin-bottom: 14px;
+  }
+  .about-me p {
+    margin: 0;
+    font-size: clamp(16px, 4.2vw, 18px);
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0;
+    text-align: left;
+    text-wrap: normal;
+    word-spacing: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+}
+
 @media only screen and (min-width: 600px) {
   .about-section {
     justify-content: center;
@@ -41,6 +66,7 @@
     max-width: calc(100% - 70px);
     transform: translateY(0%);
   }
+  
   .about-section {
     opacity: 1;
   }

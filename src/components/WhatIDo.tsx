@@ -7,23 +7,24 @@ const WhatIDo = () => {
   const setRef = (el: HTMLDivElement | null, index: number) => {
     containerRef.current[index] = el;
   };
+
   useEffect(() => {
-    if (ScrollTrigger.isTouch) {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.classList.remove("what-noTouch");
-          container.addEventListener("click", () => handleClick(container));
-        }
-      });
-    }
+    if (!ScrollTrigger.isTouch) return;
+
+    const cleanupFns: Array<() => void> = [];
+    containerRef.current.forEach((container) => {
+      if (!container) return;
+      container.classList.remove("what-noTouch");
+      const onClick = () => handleClick(container);
+      container.addEventListener("click", onClick);
+      cleanupFns.push(() => container.removeEventListener("click", onClick));
+    });
+
     return () => {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.removeEventListener("click", () => handleClick(container));
-        }
-      });
+      cleanupFns.forEach((cleanup) => cleanup());
     };
   }, []);
+
   return (
     <div className="whatIDO">
       <div className="what-box">
@@ -87,19 +88,19 @@ const WhatIDo = () => {
             <div className="what-corner"></div>
 
             <div className="what-content-in">
-              <h3>AI Automation </h3>
-              <h4>Helping businesses reduce manual work </h4>
+              <h3>AI Automation</h3>
+              <h4>Helping businesses reduce manual work</h4>
               <p>
-               I build AI-powered systems that automate repetitive tasks—customer support, lead handling, and internal workflows.
+                I build AI-powered systems that automate repetitive tasks -
+                customer support, lead handling, and internal workflows.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">AI chatbots </div>
+                <div className="what-tags">AI chatbots</div>
                 <div className="what-tags">Workflow automation</div>
                 <div className="what-tags">API integrations</div>
-                <div className="what-tags">OpenAI  &amp; LLMs</div>
+                <div className="what-tags">OpenAI &amp; LLMs</div>
                 <div className="what-tags">Data processing</div>
-                {/* <div className="what-tags">Product strategy</div> */}
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -126,12 +127,14 @@ const WhatIDo = () => {
               <h3>BUILD &amp; SCALE</h3>
               <h4>Full-Stack Systems for Real Products</h4>
               <p>
-                I develop scalable web applications and backend systems that power real businesses—APIs, real-time apps, and cloud infrastructure. 
+                I develop scalable web applications and backend systems that
+                power real businesses - APIs, real-time apps, and cloud
+                infrastructure.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
                 <div className="what-tags">Node.js</div>
-                <div className="what-tags">React </div>
+                <div className="what-tags">React</div>
                 <div className="what-tags">REST APIs</div>
                 <div className="what-tags">PostgreSQL</div>
                 <div className="what-tags">MongoDB</div>

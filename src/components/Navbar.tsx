@@ -6,39 +6,68 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import "./styles/Navbar.css";
 
 gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
-export let smoother: ScrollSmoother;
+export let smoother: ScrollSmoother | null = null;
 
 const Navbar = () => {
   useEffect(() => {
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.7,
-      speed: 1.7,
-      effects: true,
-      autoResize: true,
-      ignoreMobileResize: true,
-    });
+    const isDesktop = window.innerWidth > 1024;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const shouldUseSmoother = isDesktop && !prefersReducedMotion;
 
-    smoother.scrollTop(0);
-    smoother.paused(true);
-
-    let links = document.querySelectorAll(".header ul a");
-    links.forEach((elem) => {
-      let element = elem as HTMLAnchorElement;
-      element.addEventListener("click", (e) => {
-        if (window.innerWidth > 1024) {
-          e.preventDefault();
-          let elem = e.currentTarget as HTMLAnchorElement;
-          let section = elem.getAttribute("data-href");
-          smoother.scrollTo(section, true, "top top");
-        }
+    if (shouldUseSmoother) {
+      smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1.2,
+        speed: 1.2,
+        effects: true,
+        autoResize: true,
+        ignoreMobileResize: true,
       });
-    });
-    window.addEventListener("resize", () => {
-      ScrollSmoother.refresh(true);
-    });
+      smoother.scrollTop(0);
+      smoother.paused(true);
+    }
+
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(".header ul a")
+    );
+    const onLinkClick = (e: MouseEvent) => {
+      if (!smoother || window.innerWidth <= 1024) return;
+      e.preventDefault();
+      const elem = e.currentTarget as HTMLAnchorElement;
+      const section = elem.getAttribute("data-href");
+      if (section) {
+        smoother.scrollTo(section, true, "top top");
+      }
+    };
+    links.forEach((link) => link.addEventListener("click", onLinkClick));
+
+    let resizeRaf: number | null = null;
+    const onResize = () => {
+      if (resizeRaf !== null) {
+        window.cancelAnimationFrame(resizeRaf);
+      }
+      resizeRaf = window.requestAnimationFrame(() => {
+        smoother?.refresh();
+        ScrollTrigger.refresh();
+      });
+    };
+
+    window.addEventListener("resize", onResize, { passive: true });
+
+    return () => {
+      if (resizeRaf !== null) {
+        window.cancelAnimationFrame(resizeRaf);
+      }
+      window.removeEventListener("resize", onResize);
+      links.forEach((link) => link.removeEventListener("click", onLinkClick));
+      smoother?.kill();
+      smoother = null;
+    };
   }, []);
+
   return (
     <>
       <div className="header">

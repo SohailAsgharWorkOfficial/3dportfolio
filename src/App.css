@@ -1,6 +1,17 @@
 .section-container {
   width: 1300px;
 }
+.app-fallback {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: #a6b3c2;
+  letter-spacing: 0.6px;
+  background: var(--backgroundColor);
+  z-index: 1;
+}
 .title,
 .para {
   font-kerning: none;

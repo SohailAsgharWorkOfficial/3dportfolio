@@ -60,8 +60,17 @@ const setCharacter = (
               }
             });
             resolve(gltf);
-            setCharTimeline(character, camera);
-            setAllTimeline();
+            const prefersReducedMotion = window.matchMedia(
+              "(prefers-reduced-motion: reduce)"
+            ).matches;
+            if (!prefersReducedMotion) {
+              setCharTimeline(character, camera);
+              setAllTimeline();
+            } else {
+              document.querySelectorAll(".what-box-in").forEach((element) => {
+                (element as HTMLElement).style.display = "flex";
+              });
+            }
             character!.getObjectByName("footR")!.position.y = 3.36;
             character!.getObjectByName("footL")!.position.y = 3.36;
 

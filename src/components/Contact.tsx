@@ -16,14 +16,16 @@ const Contact = () => {
                 rel="noreferrer"
                 data-cursor="disable"
               >
-                LinkedIn — sohail-asghar-4068a0247
+                LinkedIn - sohail-asghar-4068a0247
               </a>
             </p>
             <h4>Education</h4>
             <p>
-              Bachelor of Computer Science , Abbottabad University of Science & Technology — 2021–2024
-           <br></br>
-              Diploma in Information Technology, Institute of Computer Languages, Abbottabad — 2022–2023 
+              Bachelor of Computer Science, Abbottabad University of Science &
+              Technology - 2021-2024
+              <br></br>
+              Diploma in Information Technology, Institute of Computer
+              Languages, Abbottabad - 2022-2023
             </p>
           </div>
           <div className="contact-box">

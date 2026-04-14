@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 
 interface Props {
@@ -6,18 +6,38 @@ interface Props {
   alt?: string;
   video?: string;
   link?: string;
+  priority?: boolean;
 }
 
 const WorkImage = (props: Props) => {
   const [isVideo, setIsVideo] = useState(false);
   const [video, setVideo] = useState("");
+
+  useEffect(() => {
+    return () => {
+      if (video.startsWith("blob:")) {
+        URL.revokeObjectURL(video);
+      }
+    };
+  }, [video]);
+
   const handleMouseEnter = async () => {
-    if (props.video) {
-      setIsVideo(true);
-      const response = await fetch(`src/assets/${props.video}`);
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      setVideo(blobUrl);
+    if (!props.video) return;
+
+    setIsVideo(true);
+    if (video) return;
+
+    const response = await fetch(`src/assets/${props.video}`);
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    setVideo(blobUrl);
+  };
+
+  const handleMouseLeave = () => {
+    setIsVideo(false);
+    if (video.startsWith("blob:")) {
+      URL.revokeObjectURL(video);
+      setVideo("");
     }
   };
 
@@ -27,8 +47,9 @@ const WorkImage = (props: Props) => {
         className="work-image-in"
         href={props.link}
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={() => setIsVideo(false)}
+        onMouseLeave={handleMouseLeave}
         target="_blank"
+        rel="noreferrer"
         data-cursor={"disable"}
       >
         {props.link && (
@@ -36,7 +57,12 @@ const WorkImage = (props: Props) => {
             <MdArrowOutward />
           </div>
         )}
-        <img src={props.image} alt={props.alt} />
+        <img
+          src={props.image}
+          alt={props.alt}
+          loading={props.priority ? "eager" : "lazy"}
+          decoding="async"
+        />
         {isVideo && <video src={video} autoPlay muted playsInline loop></video>}
       </a>
     </div>

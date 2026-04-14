@@ -1,13 +1,20 @@
-import { useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 const projects = [
   {
+    title: "Uxtrinsic",
+    category: "Team Management & Workflow Automation Platform",
+    tools: "Custom web development, UI/UX design, SEO optimization",
+    image: "/images/uxtrinsic.png",
+    link: "https://uxtrinsic.com",
+  },
+  {
     title: "Potentials Dev+",
     category: "Web Development & Digital Experience Agency",
-    tools: "Custom web development, UI/UX design, SEO optimization",
+    tools: "Workspace Management, Task & Workflow Automation",
     image: "/images/potentialsdev.png",
     link: "https://potentialsdev.com",
   },
@@ -65,13 +72,28 @@ const projects = [
 const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const animationTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (animationTimeoutRef.current !== null) {
+        window.clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const goToSlide = useCallback(
     (index: number) => {
       if (isAnimating) return;
       setIsAnimating(true);
       setCurrentIndex(index);
-      setTimeout(() => setIsAnimating(false), 500);
+      if (animationTimeoutRef.current !== null) {
+        window.clearTimeout(animationTimeoutRef.current);
+      }
+      animationTimeoutRef.current = window.setTimeout(
+        () => setIsAnimating(false),
+        500
+      );
     },
     [isAnimating]
   );
@@ -178,6 +200,7 @@ const Work = () => {
                         image={project.image}
                         alt={project.title}
                         link={project.link}
+                        priority={index === currentIndex}
                       />
                     </div>
                   </div>

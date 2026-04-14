@@ -395,3 +395,11 @@ h2.landing-info-h2 {
     font-size: 75px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-circle1,
+  .landing-circle2,
+  .character-rim {
+    animation: none !important;
+  }
+}
