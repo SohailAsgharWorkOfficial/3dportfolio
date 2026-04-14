@@ -39,3 +39,9 @@
     cursor: auto !important;
   }
 }
+
+@media (max-width: 899px), (hover: none), (pointer: coarse) {
+  .cursor-main {
+    display: none !important;
+  }
+}
