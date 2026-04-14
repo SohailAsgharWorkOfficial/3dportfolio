@@ -1,9 +1,6 @@
 import {
-  lazy,
   PropsWithChildren,
-  Suspense,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import About from "./About";
@@ -16,15 +13,12 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
-
-const TechStack = lazy(() => import("./TechStack"));
+import TechStack from "./TechStack";
 
 const MainContainer = ({ children }: PropsWithChildren) => {
   const [isDesktopView, setIsDesktopView] = useState<boolean>(
     window.innerWidth > 1024
   );
-  const [shouldRenderTechStack, setShouldRenderTechStack] = useState(false);
-  const techStackSentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let rafId: number | null = null;
@@ -39,9 +33,6 @@ const MainContainer = ({ children }: PropsWithChildren) => {
         setIsDesktopView((prev) =>
           prev === nextIsDesktopView ? prev : nextIsDesktopView
         );
-        if (!nextIsDesktopView) {
-          setShouldRenderTechStack(false);
-        }
       });
     };
 
@@ -55,32 +46,6 @@ const MainContainer = ({ children }: PropsWithChildren) => {
       window.removeEventListener("resize", resizeHandler);
     };
   }, []);
-
-  useEffect(() => {
-    if (!isDesktopView || shouldRenderTechStack) return;
-
-    const sentinel = techStackSentinelRef.current;
-    if (!sentinel || !("IntersectionObserver" in window)) {
-      setShouldRenderTechStack(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldRenderTechStack(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: "600px 0px",
-        threshold: 0.01,
-      }
-    );
-
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, [isDesktopView, shouldRenderTechStack]);
 
   return (
     <div className="container-main">
@@ -96,14 +61,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <WhatIDo />
             <Career />
             <Work />
-            {isDesktopView && (
-              <div ref={techStackSentinelRef} className="techstack-sentinel" />
-            )}
-            {isDesktopView && shouldRenderTechStack && (
-              <Suspense fallback={<div>Loading....</div>}>
-                <TechStack />
-              </Suspense>
-            )}
+            {isDesktopView && <TechStack />}
             <Contact />
           </div>
         </div>
