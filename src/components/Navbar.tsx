@@ -81,7 +81,7 @@ const Navbar = () => {
           target="_blank"
           rel="noreferrer"
         >
-          linkedin.com/in/sohail-asghar-4068a0247
+          linkedin.com/in/sohail-asghar
         </a>
         <ul>
           <li>

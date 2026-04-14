@@ -18,10 +18,10 @@ const Career = () => {
                 <h4>Full Stack Developer</h4>
                 <h5>Inventocube</h5>
               </div>
-              <h3>NOW</h3>
+              <h3>May 25-Present</h3>
             </div>
             <p>
-              Implement production-ready features across frontend and backend,
+              Implementing production-ready features across frontend and backend,
               ensuring reliability, maintainability, and modular architecture.
             </p>
           </div>
@@ -31,7 +31,7 @@ const Career = () => {
                 <h4>Web App Developer</h4>
                 <h5>Ethisol</h5>
               </div>
-              <h3>24-25</h3>
+              <h3>Jan 24-Apr 25</h3>
             </div>
             <p>
               Developed and deployed modern, responsive web applications for
@@ -44,7 +44,7 @@ const Career = () => {
                 <h4>Frontend Developer</h4>
                 <h5>Ethisol</h5>
               </div>
-              <h3>22-24</h3>
+              <h3>Mar 22-Jan 24</h3>
             </div>
             <p>
               Converted Figma and Adobe XD designs into high-quality,
@@ -55,16 +55,27 @@ const Career = () => {
             <div className="career-info-in">
               <div className="career-role">
                 <h4>Programming Intern</h4>
-                <h5>Artificial Intelligence Community of Pakistan</h5>
+                <h5>AICP</h5>
               </div>
-              <h3></h3>
+              <h3>Oct 23-Dec 23</h3>
             </div>
             <p>
               Contributed to the development of enterprise-level applications
               by assisting in design, feature implementation, and system
-              optimization. Collaborated with teams to deliver scalable,
-              high-performance business solutions while following industry best
-              practices.
+              optimization. 
+            </p>
+          </div>
+
+          <div className="career-info-box">
+            <div className="career-info-in">
+              <div className="career-role">
+                <h4>Web Dev Intern</h4>
+                <h5>Codsoft</h5>
+              </div>
+              <h3>Sep 23-Oct 23</h3>
+            </div>
+            <p>
+               Successfully completed a Web Development internship at Codsoft, gaining practical experience in building responsive and user-friendly web applications.
             </p>
           </div>
         </div>

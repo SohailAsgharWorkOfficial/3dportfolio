@@ -16,7 +16,7 @@ const Contact = () => {
                 rel="noreferrer"
                 data-cursor="disable"
               >
-                LinkedIn - sohail-asghar-4068a0247
+                LinkedIn - sohail-asghar
               </a>
             </p>
             <h4>Education</h4>

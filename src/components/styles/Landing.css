@@ -262,6 +262,55 @@ h2.landing-info-h2 {
   left: 0;
 }
 
+@media screen and (max-width: 899px) {
+  .landing-info h2 {
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  h2.landing-info-h2 {
+    width: auto;
+    margin-left: 0;
+  }
+
+  .landing-info-h2::after {
+    display: none;
+  }
+
+  /* Mobile fallback: prevent overlap when word-loop animation is disabled */
+  .landing-h2-2,
+  .landing-h2-info-1 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 499px) {
+  .landing-info {
+    left: 0;
+    right: auto;
+    transform: none;
+    bottom: 72px;
+    width: 100%;
+  }
+
+  .landing-info h3 {
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .landing-info h2 {
+    font-size: 34px;
+    line-height: 1.05;
+    display: block;
+    letter-spacing: 1px;
+  }
+
+  h2.landing-info-h2 {
+    font-size: 42px;
+  }
+}
+
 @media screen and (min-width: 500px) {
   .landing-circle2 {
     display: block;
